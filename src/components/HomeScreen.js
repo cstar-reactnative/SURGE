@@ -10,11 +10,25 @@ class HomeScreen extends Component {
     const { currentUser } = this.state
 
     return (
-      <View style={styles.container}>
+      <Container style={styles.container}>
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+              <Icon name="menu" />
+            </Button>
+          </Left>
+          <Body>
+            <Title>HomeScreen</Title>
+          </Body>
+          <Right />
+        </Header>
+        
         <Text>
           Hi {currentUser && currentUser.email}!
         </Text>
-      </View>
+      </Container>
     );
   }
 }
