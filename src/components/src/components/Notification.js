@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Icon } from 'native-base';
-import { Header } from './common';
+import { Header } from './components/common';
 
 
 class Notification extends Component {

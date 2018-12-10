@@ -4,24 +4,23 @@
 
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import { Header } from './common/Header';
 import { Icon } from 'native-base';
-import { Header } from './common';
 
 
 class Profile extends Component {
   static navigationOptions = {
     drawerIcon : () => (
-      <Icon name="person" style={{ fontSize: 24 }} />
+      <Icon name="md-contact" style={{ fontSize: 24 }} />
           )
   }
-  
   render() {
     return (
     <View>
     <Header headerText="Profile" />
-    <Text> Home Screen </Text>
-    <Text> Home Screen </Text>
-    <Text> Home Screen </Text>
+    <Text> Profile Screen </Text>
+    <Text> Profile Screen </Text>
+    <Text> Profile Screen </Text>
     </View>
   );
   }

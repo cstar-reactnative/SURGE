@@ -1,11 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions, StatusBar, Spinner } from 'react-native';
+import { ActivityIndicator, AsyncStorage, StyleSheet, View, Text, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import { createDrawerNavigator, DrawerItems, createAppContainer } from 'react-navigation';
-import { Asset, AppLoading } from 'expo';
-import LoginForm from './src/components/LoginForm';
-import firebase from '@firebase/app';
-import '@firebase/auth';
-
+import { Content, StyleProvider, AppLoading } from 'native-base';
+import getTheme from './native-base-theme/components';
 import HomeScreen from './src/components/HomeScreen';
 import Settings from './src/components/Settings';
 import Notifications from './src/components/Notifications';
@@ -14,14 +11,16 @@ import Payment from './src/components/Payment';
 import Help from './src/components/Help';
 import Rewards from './src/components/Rewards';
 import Profile from './src/components/Profile';
+import LoginForm from './src/components/LoginForm';
+// import SignupForm from './src/components/SignUp';
+
+import firebase from '@firebase/app';
+import '@firebase/auth';
 
 const { width } = Dimensions.get('window')
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { loading: true, loggedIn: null };
-  }
+  state = { loggedIn: null };
 
   componentDidMount() {
     firebase.initializeApp({
@@ -35,51 +34,26 @@ export default class App extends React.Component {
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ loggedIn: true, user, });
+        this.setState({ loggedIn: true });
       } else {
         this.setState({ loggedIn: false });
       }
-      this.props.navigation.navigate(user ? 'Home' : 'Profile')
     });
-  }
-
-  async componentWillMount() {
-    await Expo.Font.loadAsync({
-      'Roboto': require('native-base/Fonts/Roboto.ttf'),
-      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-      Ionicons: require("native-base/Fonts/Ionicons.ttf")
-    });
-    
-    this.setState({ loading: false });
-  }
-
-  renderContent() {
-    switch (this.state.loggedIn) {
-      case true:
-        return (
-          <HomeScreen />
-        );
-      case false:
-        return <LoginForm />;
-      default:
-        return <Spinner size="large" />;
-    }
   }
 
   render() {
-    if (this.state.loading) {
-      return  <AppLoading
-        startAsync={this._cacheResourcesAsync}
-        onFinish={() => this.setState({ isReady: true })}
-        onError={console.warn}
-      />;
+    if (!this.state.loggedIn) {
+      return <LoginForm />;
     }
 
-    return (      
-      <AppContainer/>
+    return (
+      <StyleProvider style={getTheme()}>
+        <AppDrawerNavigator />
+      </StyleProvider>
     );
   }
 }
+
 
 const CustomDrawerComponent = (props) => (
   <SafeAreaView style={{ flex: 1 }}>
@@ -102,13 +76,18 @@ const AppDrawerNavigator = createDrawerNavigator({
   contentComponent: CustomDrawerComponent,
 })
 
-const AppContainer = createAppContainer(AppDrawerNavigator);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    justifyContent: 'center'
+  }
+})
+
+
+
+//  contentOptions: {
+//    activeTintColor: "orange"
+//  }
+//  drawerWidth: width
