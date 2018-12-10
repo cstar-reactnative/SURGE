@@ -7,12 +7,14 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/vector-icons": "^8.0.0",
     "expo": "^31.0.2",
     "firebase": "^5.7.0",
     "native-base": "^2.8.1",
     "react": "16.5.0",
     "react-base": "^0.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
+    "react-native-firebase": "^5.1.1",
     "react-native-gesture-handler": "^1.0.10",
     "react-navigation": "^3.0.6"
   },
