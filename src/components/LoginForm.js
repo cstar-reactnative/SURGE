@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from './common';
+import { Container, Content, Form, Item, Label } from 'native-base';
 import firebase from '@firebase/app';
 import '@firebase/auth';
-
+// import Container from '../../native-base-theme/components/Container';
 
 class LoginForm extends Component {
   state = { email: '', password: '', error: '', loading: false };
@@ -46,76 +47,91 @@ class LoginForm extends Component {
   // if else logic
     return (
       <Button onPress={this.onButtonPress.bind(this)}>
-      Log in
+        Log in
       </Button>
     );
   }
 
   render() {
     return (
-      <Card>
-        <CardSection>
-          <Input
-          label='Email'
-          placeholder='user@email.com'
-          value={this.state.email}
-          onChangeText={(email) => this.setState({ email })}
-          />
-        </CardSection>
+      <Container>
+        <Content>
+          <Form style={styles.formStyle}>
+            <Item>
+              <Input
+              label='Email'
+              placeholder='user@email.com'
+              value={this.state.email}
+              onChangeText={(email) => this.setState({ email })}
+              />
+            </Item>
 
-        <CardSection>
-          <Input
-          placeholder='password'
-          label='Password'
-          value={this.state.password}
-          onChangeText={password => this.setState({ password })}
-          secureTextEntry
-          />
-        </CardSection>
+            <Item>
+              <Input
+              placeholder='password'
+              label='Password'
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+              secureTextEntry
+              />
+            </Item>
 
-        <Text style={styles.errorTextStyle} >
-          {this.state.error}
-        </Text>
+            <Item>
+              <Text style={styles.errorTextStyle} >
+                {this.state.error}
+              </Text>
+            </Item>
 
-        <CardSection>
-          {this.renderButton()}
-        </CardSection>
+            <Item>
+              {this.renderButton()}
+            </Item>
 
-        <CardSection>
-          <View style={styles.viewStyle}>
-            <Text style={styles.textStyle}>Forget Password</Text>
-          </View>
-        </CardSection>
+            <Item>
+              <Button style={styles.textStyle}>Forget Password</Button>
+            </Item>
 
-        <CardSection>
-          <Text style={styles.textStyle}>
-            Not a member? Click here to Sign Up
-          </Text>
-        </CardSection>
-      </Card>
+            <Item last>
+              <Button style={styles.textStyle}>
+                Sign Up
+              </Button>
+            </Item>
+          </Form>
+        </Content>
+      </Container>
+      
     );
   }
 }
 
 const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  view: {
+    paddingLeft: 0,
+    marginLeft: 0
+  },
+  item: {
+    paddingLeft: 0,
+    marginLeft: 0
+  },
+  formStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   errorTextStyle: {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
   },
-  viewStyle: {
-    backgroundColor: '#ffff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 40,
-    paddingTop: 15,
-    shadowOpacity: 0.2,
-    position: 'relative'
-  },
   textStyle: {
     fontSize: 20,
     justifyContent: 'center'
-  }
+  },
 };
 
 export default LoginForm;
