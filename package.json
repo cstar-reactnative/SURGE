@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "clear": "rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-*"
   },
   "dependencies": {
     "@babel/runtime": "^7.2.0",
@@ -14,8 +15,11 @@
     "react-native": "0.57.7",
     "react-native-gesture-handler": "^1.0.10",
     "react-navigation": "^2.6.2",
+    "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
-    "recompose": "^0.30.0"
+    "recompose": "^0.30.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",

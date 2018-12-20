@@ -1,6 +1,6 @@
 import React from 'react';
-import { ActivityIndicator, AsyncStorage, StyleSheet, View, Text, SafeAreaView, ScrollView, Dimensions } from 'react-native';
-import { createDrawerNavigator, DrawerItems, createAppContainer } from 'react-navigation';
+import { TouchableOpacity, ActivityIndicator, AsyncStorage, StyleSheet, View, Text, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { createDrawerNavigator, DrawerItems, createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation';
 import { Content, StyleProvider, AppLoading } from 'native-base';
 import getTheme from './native-base-theme/components';
 import HomeScreen from './src/components/HomeScreen';
@@ -12,7 +12,8 @@ import Help from './src/components/Help';
 import Rewards from './src/components/Rewards';
 import Profile from './src/components/Profile';
 import LoginForm from './src/components/LoginForm';
-// import SignupForm from './src/components/SignUp';
+import Register from './src/components/Register';
+import ForgotPassword from './src/components/ForgotPassword';
 
 import firebase from '@firebase/app';
 import '@firebase/auth';
@@ -23,13 +24,22 @@ export default class App extends React.Component {
   state = { loggedIn: null };
 
   componentDidMount() {
+    // firebase.initializeApp({
+    //   apiKey: 'AIzaSyBBCUH6Z9dYPiVK_zDBFkodmYqzp1fPy6Q',
+    //   authDomain: 'auth-5d612.firebaseapp.com',
+    //   databaseURL: 'https://auth-5d612.firebaseio.com',
+    //   projectId: 'auth-5d612',
+    //   storageBucket: 'auth-5d612.appspot.com',
+    //   messagingSenderId: '544181894629'
+    // });
+
     firebase.initializeApp({
-      apiKey: 'AIzaSyBBCUH6Z9dYPiVK_zDBFkodmYqzp1fPy6Q',
-      authDomain: 'auth-5d612.firebaseapp.com',
-      databaseURL: 'https://auth-5d612.firebaseio.com',
-      projectId: 'auth-5d612',
-      storageBucket: 'auth-5d612.appspot.com',
-      messagingSenderId: '544181894629'
+      apiKey: 'AIzaSyC7YK8e6wh3NGADj6e1N_hg5StgLA6CBuk',
+      authDomain: 'surge-e5c3c.firebaseapp.com',
+      databaseURL: 'https://surge-e5c3c.firebaseio.com',
+      projectId: 'surge-e5c3c',
+      storageBucket: 'surge-e5c3c.appspot.com',
+      messagingSenderId: '235299112352'
     });
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -39,18 +49,24 @@ export default class App extends React.Component {
         this.setState({ loggedIn: false });
       }
     });
+
+    this.setState({firebase: firebase});
   }
 
   render() {
     if (!this.state.loggedIn) {
-      return <LoginForm />;
+      return (
+        <StyleProvider style={getTheme()}>
+          <AppStackNavigator/>
+        </StyleProvider>
+      );
+    } else {
+      return (
+        <StyleProvider style={getTheme()}>
+          <AppDrawerNavigator />
+        </StyleProvider>
+      );
     }
-
-    return (
-      <StyleProvider style={getTheme()}>
-        <AppDrawerNavigator />
-      </StyleProvider>
-    );
   }
 }
 
@@ -59,6 +75,12 @@ const CustomDrawerComponent = (props) => (
   <SafeAreaView style={{ flex: 1 }}>
     <ScrollView>
       <DrawerItems {...props} />
+
+      <TouchableOpacity style={{ width:'100%', height:50, justifyContent:'center', alignItems:'center'}} 
+      onPress={() => firebase.auth().signOut() }
+      >
+        <Text style={{fontSize:15, fontWeight:'500'}}>Logout</Text>
+      </TouchableOpacity>
     </ScrollView>
   </SafeAreaView>
 )
@@ -76,6 +98,14 @@ const AppDrawerNavigator = createDrawerNavigator({
   contentComponent: CustomDrawerComponent,
 })
 
+const AppStackNavigator = createStackNavigator({
+  SignIn: LoginForm,
+  Register: Register,
+  ForgotPassword: ForgotPassword
+}, {
+  initialRouteName:'SignIn'
+})
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -84,10 +114,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 })
-
-
-
-//  contentOptions: {
-//    activeTintColor: "orange"
-//  }
-//  drawerWidth: width

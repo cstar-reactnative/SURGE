@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Platform, LayoutAnimation,
-  StyleSheet, ScrollView, UIManager, TouchableOpacity } from 'react-native';
-//import { Header } from './common/Header';
-import { Icon, Header, Left } from 'native-base';
+import { View, Text, Platform, LayoutAnimation, StyleSheet, ScrollView, UIManager, TouchableOpacity } from 'react-native';
+import { AppHeader } from './common/Header';
+import { Icon, Content } from 'native-base';
 
 class Accordion_Panel extends Component {
 
@@ -98,31 +97,26 @@ class Help extends Component {
 
   render() {
     return (
-      <View style={styles.MainContainer}>
-      <ScrollView contentContainerStyle={{ paddingHorizontal: 10, paddingVertical: 40 }}>
-        {
-          this.state.AccordionData.map((item, key) =>
-            (
-              <Accordion_Panel key={key} onClickFunction={this.update_Layout.bind(this, key)} item={item} />
-            ))
-        }
-      </ScrollView>
-      </View>
+      <Content style={styles.MainContainer}>
+        <AppHeader headerText="Help" navigate={this.props.navigation} />
+        
+        <ScrollView contentContainerStyle={{ justifyContent:'center', alignItems:'center', paddingHorizontal: 10, paddingVertical: 40 }}>
+          {
+            this.state.AccordionData.map((item, key) =>
+              (
+                <Accordion_Panel key={key} onClickFunction={this.update_Layout.bind(this, key)} item={item} />
+              ))
+          }
+        </ScrollView>
+      </Content>
       );
   }
 }
 
 export default Help;
 
-
-
-
-
 const styles = StyleSheet.create({
-
   MainContainer: {
-    flex: 1,
-    justifyContent: 'center',
     paddingTop: (Platform.OS === 'ios') ? 20 : 0
   },
 
